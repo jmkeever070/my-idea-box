@@ -1,0 +1,148 @@
+ /*--------------- WHOLE PAGE --------------- */
+*:before, *:after, * {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: #FBFDFD;
+  /*box-sizing: border-box;*/
+}
+
+header {
+  background-color: #322A30;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  color: #AFA5CD;
+  letter-spacing: 1.5px;
+  margin-left: 26px;
+}
+
+.triples {
+  color: #ffffff;
+}
+
+.header-search {
+  display: flex;
+  height: 34px;
+  margin-right: 26px;
+}
+
+.search-input {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  padding-left: 12px;
+  width: 15rem;
+}
+
+.fa-search {
+  background-color: #ADAAB6;
+  color: #ffffff;
+  font-size: 24px;
+  padding: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/* --------------- FORM --------------- */
+
+form {
+  display: flex;
+  flex-direction: column; 
+  margin: auto;
+  padding-bottom: 15px;
+  width: 65%;
+}
+
+.top-section{
+  background: #EDF2F2;
+}
+
+.form-styles {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+label {
+  font-weight: 300;
+  color: #656372;
+}
+
+.form-btn {
+  background-color: #5E5C6B;
+  color: #FEFEFE;
+  margin-top: 15px;
+  padding: 6px 0;
+}
+
+.title-input {
+  height: 32px;
+}
+
+.title-input,
+.body-input,
+.form-btn {
+  border-radius: 5px;
+}
+
+.title-input,
+.body-input {
+  border: 1.5px solid #D5D2D9;
+}
+
+/* --------------- CARDS --------------- */
+
+.idea-card {
+  border-radius: 5px;
+  border: 1.5px solid #D5D2D9;
+  display: flex;
+  flex-direction: column; 
+  margin: auto;
+  margin-top: 20px;
+  order: 2px solid #D5D2D9;
+  width: 65%;
+}
+
+.card-footer {
+  align-items: center;
+  border-top: 1.5px solid #D5D2D9;
+  color: #6A686A;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.card-body {
+  padding: 0px 15px 15px 15px;
+  color: #787679;
+}
+
+h2 {
+  color: #5D5A6B;
+  padding: 15px;
+  font-weight: 800;
+}
+
+h4 {
+  margin: 0px;
+  font-weight: 700;
+
+}
+
+.btns {
+  height: 20px;
+  width: 20px;
+}
+
+.card-footer-left-buttons {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 182px;
+}
