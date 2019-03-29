@@ -7,6 +7,7 @@ var cardBookmark = document.querySelector('.card-area');
 var ideasArray = [];
 
 
+
 // 
 for (var i=0; i<localStorage.length; i++) {
     // Might want to check for the correct object
@@ -30,6 +31,7 @@ cardBookmark.addEventListener('click', function(e) {
     deleteCard(e)
   }
 })
+
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('card-title')) {
     // console.log('this works too');
@@ -44,7 +46,7 @@ cardBookmark.addEventListener('click', function(e) {
 })
 
 
-// **********FUNCTIONS
+// **********FUNCTIONS***************
 
 
 function windowLoad(storageArray) {
@@ -71,8 +73,8 @@ function makeCard(idea) {
   var card =
 
 `<article class="idea-card" id="card${idea.id}"">
-      <h2 class="card-title" id= cardtitle contenteditable>${idea.title}</h2>
-      <p class="card-body" id="cardbody" contenteditable>${idea.body}</p>
+      <h2 class="card-title editable" id="cardtitle" data-deleteid=${idea.id}>${idea.title}</h2>
+      <p class="card-body editable" id="bodytitle">${idea.body}</p>
       <footer class="card-footer">
         <div class="card-footer-left-buttons">
           <input type="image" class="down-vote btns" src="assets/downvote.svg">
@@ -102,15 +104,28 @@ function deleteCard(e) {
 
 function updateCardContent(e) {
   // Similar setup to delete Card
-  debugger;
-   var title = document.querySelector('.card-title');
-   var oldTitle = title.innerText;
-   // var newTitle = oldTitle.innerText;
-   
+
+
+debugger;
+  var editTitle = document.querySelector('.card-title');
+  var editBody = document.querySelector('.card-body');
+    if (e.target.classList.contains('editable')) {
+    e.target.contentEditable = true;
+    }
+
+  // var title = document.querySelector('#cardtitle');
+  // var newTitle = title.innerText;
+
+  var findId = e.target.dataset.deleteid;
+
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newTitle = ideaObject.title 
+  var newIdea = new Idea(newTitle, ideaObject.body, ideaObject.id, ideaObject.quality);
     
-    var idea = localStorage.getItem(oldTitle);
-    var ideaObject = JSON.parse(idea); 
-    var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, ideaObject.quality);
-    newIdea.updateContent()
+   // console.log(title);
+   
+    console.log(newIdea);
+    newIdea.updateContent(newIdea)
   //
 }

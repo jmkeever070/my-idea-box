@@ -17,7 +17,7 @@ class Idea {
   }
 
   updateContent() {
-    this.title = this.title.innerText();
+    
   }
 
   updateQuality() {
