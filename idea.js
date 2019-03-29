@@ -17,11 +17,11 @@ class Idea {
   }
 
   updateContent() {
-    
+
   }
 
   updateQuality() {
-    
+
   }
 
 }

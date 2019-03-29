@@ -8,7 +8,6 @@ var ideasArray = [];
 
 
 
-// 
 for (var i=0; i<localStorage.length; i++) {
     // Might want to check for the correct object
     // properties before appending to ideasArray
@@ -78,7 +77,7 @@ function makeCard(idea) {
       <footer class="card-footer">
         <div class="card-footer-left-buttons">
           <input type="image" class="down-vote btns" src="assets/downvote.svg">
-          <input type="image" class="up-vote btns" src="assets/upvote.svg"> 
+          <input type="image" class="up-vote btns" src="assets/upvote.svg">
           <h4 class="card-quality">Quality: <span class="vote">${idea.quality}</span></h4>
         </div>
         <input type="image" data-deleteid=${idea.id} class="btns dlt-btn" src="assets/delete.svg">
@@ -89,7 +88,7 @@ function makeCard(idea) {
 
 function deleteCard(e) {
   // console.log(e.target.dataset);
-  debugger;
+
   var findId = e.target.dataset.deleteid;
   var data = document.querySelector(`#card${findId}`);
   data.remove();
@@ -103,29 +102,6 @@ function deleteCard(e) {
 }
 
 function updateCardContent(e) {
-  // Similar setup to delete Card
 
-
-debugger;
-  var editTitle = document.querySelector('.card-title');
-  var editBody = document.querySelector('.card-body');
-    if (e.target.classList.contains('editable')) {
-    e.target.contentEditable = true;
-    }
-
-  // var title = document.querySelector('#cardtitle');
-  // var newTitle = title.innerText;
-
-  var findId = e.target.dataset.deleteid;
-
-  var idea = localStorage.getItem(findId);
-  var ideaObject = JSON.parse(idea);
-  var newTitle = ideaObject.title 
-  var newIdea = new Idea(newTitle, ideaObject.body, ideaObject.id, ideaObject.quality);
-    
-   // console.log(title);
-   
-    console.log(newIdea);
-    newIdea.updateContent(newIdea)
   //
 }
