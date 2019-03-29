@@ -72,8 +72,8 @@ function makeCard(idea) {
   var card =
 
 `<article class="idea-card" id="card${idea.id}"">
-      <h2 class="card-title editable" id="cardtitle" data-deleteid=${idea.id}>${idea.title}</h2>
-      <p class="card-body editable" id="bodytitle">${idea.body}</p>
+      <h2 class="card-title editable" id="cardtitle" data-editcontent=${idea.id}>${idea.title}</h2>
+      <p class="card-body editable" id="bodytitle"data-editcontent${idea.id}>${idea.body}</p>
       <footer class="card-footer">
         <div class="card-footer-left-buttons">
           <input type="image" class="down-vote btns" src="assets/downvote.svg">
@@ -102,6 +102,20 @@ function deleteCard(e) {
 }
 
 function updateCardContent(e) {
+// debugger;
+  var title = document.querySelector('#cardtitle');
+  var newTitle = title.innerText;
 
-  //
+  if (event.target.classList.contains("editable")) {
+     event.target.contentEditable = true;
+  }
+  // var newTitle = oldTitle
+  var findId = e.target.dataset.editcontent;
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+
+  var newIdea = new Idea(newTitle, ideaObject.body, ideaObject.id, ideaObject.quality);
+
+  console.log(newIdea);
+  newIdea.updateContent();
 }
