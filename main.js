@@ -7,7 +7,7 @@ var cardBookmark = document.querySelector('.card-area');
 var ideasArray = [];
 
 
-//
+
 for (var i=0; i<localStorage.length; i++) {
     // Might want to check for the correct object
     // properties before appending to ideasArray
@@ -30,6 +30,7 @@ cardBookmark.addEventListener('click', function(e) {
     deleteCard(e)
   }
 })
+
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('card-title')) {
     // console.log('this works too');
@@ -44,7 +45,7 @@ cardBookmark.addEventListener('click', function(e) {
 })
 
 
-// **********FUNCTIONS
+// **********FUNCTIONS***************
 
 
 function windowLoad(storageArray) {
@@ -71,8 +72,8 @@ function makeCard(idea) {
   var card =
 
 `<article class="idea-card" id="card${idea.id}"">
-      <h2 class="card-title" id= cardtitle contenteditable>${idea.title}</h2>
-      <p class="card-body" id="cardbody" contenteditable>${idea.body}</p>
+      <h2 class="card-title editable" id="cardtitle" data-deleteid=${idea.id}>${idea.title}</h2>
+      <p class="card-body editable" id="bodytitle">${idea.body}</p>
       <footer class="card-footer">
         <div class="card-footer-left-buttons">
           <input type="image" class="down-vote btns" src="assets/downvote.svg">
@@ -102,17 +103,5 @@ function deleteCard(e) {
 
 function updateCardContent(e) {
 
-  // .card-title is a class and there are many on the page, you can't be sure what you're getting
-  // Make this a unique ID much like you did with the ID on the article html element
-  var title = document.querySelector('.card-title');
-  // since you're using the contenteditable attribute I believe this will jsut be the new title if you selected it right in the line above
-  var oldTitle = title.innerText;
-
-  // Remember that we're saving the stringified ideas by their unique timestamp ID (see how you're doing the findId aboe)
-  var idea = localStorage.getItem(oldTitle);
-  var ideaObject = JSON.parse(idea);
-  // This will be slightly different than the above. Instead of passing in all of the same properties, you actually want to pass in the new title from the querySelector above to the title arg
-  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, ideaObject.quality);
-  newIdea.updateContent()
   //
 }
