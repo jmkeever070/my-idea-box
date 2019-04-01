@@ -34,13 +34,13 @@ cardBookmark.addEventListener('click', function(e) {
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('card-title')) {
     // console.log('this works too');
-    updateCardContent(e);
+    updateTitleContent(e);
   }
 })
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('card-body')) {
     // console.log('this works as well');
-    updateCardContent(e);
+    updateBodyContent(e);
   }
 })
 
@@ -69,11 +69,12 @@ function addCard(e) {
 
 function makeCard(idea) {
   numCards++;
+  console.log(numCards);
   var card =
 
 `<article class="idea-card" id="card${idea.id}"">
-      <h2 class="card-title editable" id="cardtitle" data-editcontent=${idea.id}>${idea.title}</h2>
-      <p class="card-body editable" id="bodytitle"data-editcontent${idea.id}>${idea.body}</p>
+      <h2 class="card-title editable" id="cardtitle" data-editcontent=${idea.id} data-edittitle=${idea.title}>${idea.title}</h2>
+      <p class="card-body editable" id="cardbody" data-editcontent=${idea.id}>${idea.body}</p>
       <footer class="card-footer">
         <div class="card-footer-left-buttons">
           <input type="image" class="down-vote btns" src="assets/downvote.svg">
@@ -101,21 +102,42 @@ function deleteCard(e) {
   newIdea.deleteFromStorage();
 }
 
-function updateCardContent(e) {
+
+function updateTitleContent(e) {
 // debugger;
-  var title = document.querySelector('#cardtitle');
-  var newTitle = title.innerText;
+
+  var findId = e.target.dataset.editcontent;
+  var newTitle = e.target.dataset.edittitle;
+
+
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newIdea = new Idea(newTitle, ideaObject.body, ideaObject.id, ideaObject.quality);
 
   if (event.target.classList.contains("editable")) {
      event.target.contentEditable = true;
+    newIdea.updateContent(event.target.innerText, 'title');
+     
   }
-  // var newTitle = oldTitle
-  var findId = e.target.dataset.editcontent;
-  var idea = localStorage.getItem(findId);
-  var ideaObject = JSON.parse(idea);
-
-  var newIdea = new Idea(newTitle, ideaObject.body, ideaObject.id, ideaObject.quality);
-
   console.log(newIdea);
-  newIdea.updateContent();
+  console.log(newTitle);
 }
+
+// function updateBodyContent(e) {
+// // debugger;
+//   var body = document.querySelector('#cardbody');
+//   var newBody = body.innerText;
+
+//   if (event.target.classList.contains("editable")) {
+//      event.target.contentEditable = true;
+//   }
+//   // var newTitle = oldTitle
+//   var findId = e.target.dataset.editcontent;
+//   var idea = localStorage.getItem(findId);
+//   var ideaObject = JSON.parse(idea);
+
+//   var newIdea = new Idea(ideaObject.title, newBody, ideaObject.id, ideaObject.quality);
+
+//   console.log(newIdea);
+//   newIdea.updateContent();
+// }
