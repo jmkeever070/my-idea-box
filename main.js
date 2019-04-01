@@ -74,7 +74,7 @@ function makeCard(idea) {
 
 `<article class="idea-card" id="card${idea.id}"">
       <h2 class="card-title editable" id="cardtitle" data-editcontent=${idea.id} data-edittitle=${idea.title}>${idea.title}</h2>
-      <p class="card-body editable" id="cardbody" data-editcontent=${idea.id}>${idea.body}</p>
+      <p class="card-body editable" id="cardbody" data-editcontent=${idea.id} data-editbody=${idea.body}>${idea.body}</p>
       <footer class="card-footer">
         <div class="card-footer-left-buttons">
           <input type="image" class="down-vote btns" src="assets/downvote.svg">
@@ -123,21 +123,22 @@ function updateTitleContent(e) {
   console.log(newTitle);
 }
 
-// function updateBodyContent(e) {
-// // debugger;
-//   var body = document.querySelector('#cardbody');
-//   var newBody = body.innerText;
+function updateBodyContent(e) {
+// debugger;
+  
+  var findId = e.target.dataset.editcontent;
+  var newBody = e.target.dataset.editbody;
 
-//   if (event.target.classList.contains("editable")) {
-//      event.target.contentEditable = true;
-//   }
-//   // var newTitle = oldTitle
-//   var findId = e.target.dataset.editcontent;
-//   var idea = localStorage.getItem(findId);
-//   var ideaObject = JSON.parse(idea);
+  // var newTitle = oldTitle
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newIdea = new Idea(ideaObject.title, newBody, ideaObject.id, ideaObject.quality);
 
-//   var newIdea = new Idea(ideaObject.title, newBody, ideaObject.id, ideaObject.quality);
-
-//   console.log(newIdea);
-//   newIdea.updateContent();
-// }
+  if (event.target.classList.contains("editable")) {
+     event.target.contentEditable = true;
+     event.keyCode === 13
+     newIdea.updateContent(event.target.innerText,'body');
+  }
+  console.log(newIdea);
+  console.log(newBody);
+}
