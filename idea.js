@@ -16,9 +16,14 @@ class Idea {
     localStorage.removeItem(this.id);
   }
 
-  updateContent() {
+  updateContent(text, type) {
     // debugger;
-    // console.log(this);
+    console.log(this);
+    if (type == 'title') {
+      this.title = text;
+    } else if (type == 'body') {
+      this.body = text;
+    }
     var stringVar = JSON.stringify(this);
     localStorage.setItem(this.id, stringVar);
   }
