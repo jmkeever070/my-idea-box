@@ -4,10 +4,11 @@ class Idea {
     this.body = body;
     this.id = id || Date.now();
     this.quality = quality || 'Swill';
+    this.voteUp = 0;
+    this.voteDown = 0;
   }
 
   saveToStorage(tarheels) {
-    console.log(this);
     var stringVar = JSON.stringify(this);
     localStorage.setItem(this.id, stringVar);
   }
@@ -17,8 +18,6 @@ class Idea {
   }
 
   updateContent(text, type) {
-    // debugger;
-    console.log(this);
     if (type == 'title') {
       this.title = text;
     } else if (type == 'body') {
@@ -26,10 +25,27 @@ class Idea {
     }
     var stringVar = JSON.stringify(this);
     localStorage.setItem(this.id, stringVar);
+    console.log(this);
   }
 
-  updateQuality() {
+  updateQuality(change) {
 
+
+    if (this.quality === 'Swill') {
+        this.quality = 'Plausible'
+    } else if (this.quality === 'Plausible') {
+               this.quality = 'Genius'
+    } else {
+      this.voteDown++;
+      
+        if(this.quality === 'Genius') {
+           this.quality = 'Plausible';
+      } else if (this.quality === 'Plausible') {
+                 this.quality = 'Swill'
+      }
+    }
+
+    var stringVar = JSON.stringify(this);
+    localStorage.setItem(this.id, stringVar);
+    }
   }
-
-}
