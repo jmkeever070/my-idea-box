@@ -5,7 +5,8 @@ var saveBtn = document.querySelector('.form-btn');
 var numCards = 0;
 var cardBookmark = document.querySelector('.card-area');
 var ideasArray = [];
-
+var voteUp = 0;
+var voteDown = 0;
 
 
 for (var i=0; i<localStorage.length; i++) {
@@ -16,6 +17,8 @@ for (var i=0; i<localStorage.length; i++) {
     var parsedIdea = JSON.parse(value);
     ideasArray.push(parsedIdea);
 }
+
+console.log(ideasArray);
 
 
 // *********EVENT LISTENERS********
@@ -80,7 +83,7 @@ function makeCard(idea) {
         <div class="card-footer-left-buttons">
           <input type="image" class="down-vote btns" data-editquality=${idea.id} src="assets/downvote.svg">
           <input type="image" class="up-vote btns" data-editquality=${idea.id}  src="assets/upvote.svg">
-          <h4 class="card-quality">Quality: <span class="vote" data-changequality=${idea.quality}>${idea.quality}</span></h4>
+          <h4 class="card-quality">Quality: <span class="vote" id="newqual${idea.id}">${idea.quality}</span></h4>
         </div>
         <input type="image" data-deleteid=${idea.id} class="btns dlt-btn" src="assets/delete.svg">
       </footer>
@@ -138,18 +141,36 @@ function updateBodyContent(e) {
 }
 
 function upVote(e) {
+// debugger;
+voteUp++;
 
   findId = event.target.dataset.editquality;
-  var showQual = document.querySelector('.vote');
-// console.log(e.target.dataset.changequality);
   var idea = localStorage.getItem(findId);
   var ideaObject = JSON.parse(idea);
   var newQuality = ideaObject.quality;
+    
+    if (newQuality === 'Swill') {
+        newQuality = 'Plausible';
+        let newQual = document.querySelector(`#newqual${findId}`);
+          
+            newQual.innerText = 'Plausible';
+
+    } 
+      else if (newQuality === 'Plausible') {
+               newQuality = 'Genius'
+              let newQual = document.querySelector(`#newqual${findId}`);
+
+              newQual.innerText = 'Genius'
+    };
+
+
   var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
+
+
 
   newIdea.updateQuality();
 }
 
 
-// *********Up vote button will change in local storage but not the dom********
+// *********Up vote button will change and persist in local storage but only change on the DOM - will not persist on page reload********
 // *********continue looking at down vote button********

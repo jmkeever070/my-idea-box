@@ -4,8 +4,6 @@ class Idea {
     this.body = body;
     this.id = id || Date.now();
     this.quality = quality || 'Swill';
-    this.voteUp = 0;
-    this.voteDown = 0;
   }
 
   saveToStorage(tarheels) {
@@ -28,24 +26,11 @@ class Idea {
     console.log(this);
   }
 
-  updateQuality(change) {
-
-
-    if (this.quality === 'Swill') {
-        this.quality = 'Plausible'
-    } else if (this.quality === 'Plausible') {
-               this.quality = 'Genius'
-    } else {
-      this.voteDown++;
-      
-        if(this.quality === 'Genius') {
-           this.quality = 'Plausible';
-      } else if (this.quality === 'Plausible') {
-                 this.quality = 'Swill'
-      }
-    }
-
+  updateQuality() {
+    console.log(this)
     var stringVar = JSON.stringify(this);
+    console.log(stringVar);
     localStorage.setItem(this.id, stringVar);
-    }
+  
   }
+}
