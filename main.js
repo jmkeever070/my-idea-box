@@ -16,7 +16,6 @@ for (var i=0; i<localStorage.length; i++) {
     var parsedIdea = JSON.parse(value);
     ideasArray.push(parsedIdea);
 }
-// console.log(ideasArray);
 
 
 // *********EVENT LISTENERS********
@@ -26,21 +25,23 @@ window.addEventListener('load', windowLoad(ideasArray))
 saveBtn.addEventListener('click', addCard);
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('dlt-btn')) {
-    // console.log("This is working")
     deleteCard(e)
   }
 })
 
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('card-title')) {
-    // console.log('this works too');
     updateTitleContent(e);
   }
 })
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('card-body')) {
-    // console.log('this works as well');
     updateBodyContent(e);
+  }
+})
+cardBookmark.addEventListener('click', function(e) {
+  if (e.target.className.includes('up-vote')) {
+    upVote(e);
   }
 })
 
@@ -77,9 +78,9 @@ function makeCard(idea) {
       <p class="card-body editable" id="cardbody" data-editcontent=${idea.id} data-editbody=${idea.body}>${idea.body}</p>
       <footer class="card-footer">
         <div class="card-footer-left-buttons">
-          <input type="image" class="down-vote btns" src="assets/downvote.svg">
-          <input type="image" class="up-vote btns" src="assets/upvote.svg">
-          <h4 class="card-quality">Quality: <span class="vote">${idea.quality}</span></h4>
+          <input type="image" class="down-vote btns" data-editquality=${idea.id} src="assets/downvote.svg">
+          <input type="image" class="up-vote btns" data-editquality=${idea.id}  src="assets/upvote.svg">
+          <h4 class="card-quality">Quality: <span class="vote" data-changequality=${idea.quality}>${idea.quality}</span></h4>
         </div>
         <input type="image" data-deleteid=${idea.id} class="btns dlt-btn" src="assets/delete.svg">
       </footer>
@@ -88,7 +89,6 @@ function makeCard(idea) {
 };
 
 function deleteCard(e) {
-  // console.log(e.target.dataset);
 
   var findId = e.target.dataset.deleteid;
   var data = document.querySelector(`#card${findId}`);
@@ -97,14 +97,12 @@ function deleteCard(e) {
   var idea = localStorage.getItem(findId);
   var ideaObject = JSON.parse(idea);
   var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, ideaObject.quality);
-  // console.log("New ideaa: ", newIdea)
-  // logic to isolate a single idea
+ 
   newIdea.deleteFromStorage();
 }
 
 
 function updateTitleContent(e) {
-// debugger;
 
   var findId = e.target.dataset.editcontent;
   var newTitle = e.target.dataset.edittitle;
@@ -119,17 +117,14 @@ function updateTitleContent(e) {
     newIdea.updateContent(event.target.innerText, 'title');
      
   }
-  console.log(newIdea);
-  console.log(newTitle);
+  
 }
 
 function updateBodyContent(e) {
-// debugger;
   
   var findId = e.target.dataset.editcontent;
   var newBody = e.target.dataset.editbody;
 
-  // var newTitle = oldTitle
   var idea = localStorage.getItem(findId);
   var ideaObject = JSON.parse(idea);
   var newIdea = new Idea(ideaObject.title, newBody, ideaObject.id, ideaObject.quality);
@@ -139,6 +134,22 @@ function updateBodyContent(e) {
      event.keyCode === 13
      newIdea.updateContent(event.target.innerText,'body');
   }
-  console.log(newIdea);
-  console.log(newBody);
+ 
 }
+
+function upVote(e) {
+
+  findId = event.target.dataset.editquality;
+  var showQual = document.querySelector('.vote');
+// console.log(e.target.dataset.changequality);
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newQuality = ideaObject.quality;
+  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
+
+  newIdea.updateQuality();
+}
+
+
+// *********Up vote button will change in local storage but not the dom********
+// *********continue looking at down vote button********
