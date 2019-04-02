@@ -7,6 +7,8 @@ var cardBookmark = document.querySelector('.card-area');
 var ideasArray = [];
 var voteUp = 0;
 var voteDown = 0;
+var searchBox = document.querySelector('.search-input');
+var searchBtn = document.querySelector('.fa-search');
 
 
 for (var i=0; i<localStorage.length; i++) {
@@ -25,7 +27,9 @@ console.log(ideasArray);
 
 
 window.addEventListener('load', windowLoad(ideasArray))
+
 saveBtn.addEventListener('click', addCard);
+
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('dlt-btn')) {
     deleteCard(e)
@@ -37,22 +41,28 @@ cardBookmark.addEventListener('click', function(e) {
     updateTitleContent(e);
   }
 })
+
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('card-body')) {
     updateBodyContent(e);
   }
 })
+
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('up-vote')) {
     upVote(e);
   }
 })
+
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('down-vote')) {
     downVote(e);
   }
 })
 
+searchBtn.addEventListener('click', textFilter);
+
+searchBox.addEventListener('keyup', textFilter);
 
 // **********FUNCTIONS***************
 
@@ -64,6 +74,10 @@ function windowLoad(storageArray) {
   });
 
 };
+
+function textFilter() {
+ 
+}
 
 function addCard(e) {
   e.preventDefault();
@@ -155,22 +169,15 @@ voteUp++;
     if (newQuality === 'Swill') {
         newQuality = 'Plausible';
         let newQual = document.querySelector(`#newqual${findId}`);
-          
             newQual.innerText = 'Plausible';
 
-    } 
-      else if (newQuality === 'Plausible') {
+    }   else if (newQuality === 'Plausible') {
                newQuality = 'Genius'
-              let newQual = document.querySelector(`#newqual${findId}`);
-
-              newQual.innerText = 'Genius'
+               let newQual = document.querySelector(`#newqual${findId}`);
+               newQual.innerText = 'Genius'
     };
 
-
   var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
-
-
-
   newIdea.updateQuality();
 }
 
@@ -185,22 +192,16 @@ function downVote(e) {
     if (newQuality === 'Genius') {
         newQuality = 'Plausible';
         let newQual = document.querySelector(`#newqual${findId}`);
-          
             newQual.innerText = 'Plausible';
 
     } 
       else if (newQuality === 'Plausible') {
                newQuality = 'Swill'
-              let newQual = document.querySelector(`#newqual${findId}`);
-
-              newQual.innerText = 'Swill'
+               let newQual = document.querySelector(`#newqual${findId}`);
+               newQual.innerText = 'Swill'
     };
-
-
+  
   var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
-
-
-
   newIdea.updateQuality();
 }
 
