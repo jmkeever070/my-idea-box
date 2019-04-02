@@ -47,6 +47,11 @@ cardBookmark.addEventListener('click', function(e) {
     upVote(e);
   }
 })
+cardBookmark.addEventListener('click', function(e) {
+  if (e.target.className.includes('down-vote')) {
+    downVote(e);
+  }
+})
 
 
 // **********FUNCTIONS***************
@@ -73,7 +78,6 @@ function addCard(e) {
 
 function makeCard(idea) {
   numCards++;
-  console.log(numCards);
   var card =
 
 `<article class="idea-card" id="card${idea.id}"">
@@ -141,7 +145,6 @@ function updateBodyContent(e) {
 }
 
 function upVote(e) {
-// debugger;
 voteUp++;
 
   findId = event.target.dataset.editquality;
@@ -171,7 +174,33 @@ voteUp++;
   newIdea.updateQuality();
 }
 
+function downVote(e) {
+  voteDown++;
 
-// *********Up vote button will change and persist in local storage but only change on the DOM - will not persist on page reload********
-// *FIXED - added x.quality to windowload function*
-// *********continue looking at down vote button********
+  findId = event.target.dataset.editquality;
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newQuality = ideaObject.quality;
+    
+    if (newQuality === 'Genius') {
+        newQuality = 'Plausible';
+        let newQual = document.querySelector(`#newqual${findId}`);
+          
+            newQual.innerText = 'Plausible';
+
+    } 
+      else if (newQuality === 'Plausible') {
+               newQuality = 'Swill'
+              let newQual = document.querySelector(`#newqual${findId}`);
+
+              newQual.innerText = 'Swill'
+    };
+
+
+  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
+
+
+
+  newIdea.updateQuality();
+}
+
