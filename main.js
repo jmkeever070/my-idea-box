@@ -54,7 +54,7 @@ cardBookmark.addEventListener('click', function(e) {
 
 function windowLoad(storageArray) {
   storageArray.forEach(function(x) {
-    var idea = new Idea(x.title, x.body, x.id);
+    var idea = new Idea(x.title, x.body, x.id, x.quality);
     makeCard(idea);
   });
 
@@ -173,4 +173,5 @@ voteUp++;
 
 
 // *********Up vote button will change and persist in local storage but only change on the DOM - will not persist on page reload********
+// *FIXED - added x.quality to windowload function*
 // *********continue looking at down vote button********
