@@ -86,12 +86,12 @@ label {
   justify-content: space-around;
 }
 
-.quality-btn {
+.button-corral {
   background-color: #5E5C6B;
   border-radius: 5px;
   color: #FEFEFE;
-  font-size: 23px;
-  width: 25%;
+  font-size: 17px;
+  width: 18%;
 }
 
 .title-input {

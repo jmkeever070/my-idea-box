@@ -12,6 +12,7 @@ var searchBtn = document.querySelector('.fa-search');
 var swillBtn = document.querySelector('#swill-btn');
 var plausBtn = document.querySelector('#plaus-btn');
 var genBtn = document.querySelector('#genius-btn');
+var moreBtn = document.querySelector('#show-more-btn');
 
 
 
@@ -40,6 +41,7 @@ plausBtn.addEventListener('click', plausFilter);
 
 genBtn.addEventListener('click', geniusFilter);
 
+moreBtn.addEventListener('click', moreAndLess);
 
 cardBookmark.addEventListener('click', function(e) {
   if (e.target.className.includes('dlt-btn')) {
@@ -75,7 +77,8 @@ searchBtn.addEventListener('click', textFilter);
 
 searchBox.addEventListener('keyup', textFilter);
 
-// **********FUNCTIONS***************
+
+// ********** GENERATE CARD FUNCTIONS***************
 
 
 function windowLoad(storageArray) {
@@ -85,6 +88,139 @@ function windowLoad(storageArray) {
   });
 
 };
+
+  
+function addCard(e) {
+  e.preventDefault();
+  var idea = new Idea(title.value, body.value);
+  ideasArray.push(idea);
+  idea.saveToStorage(ideasArray);
+  console.log(ideasArray);
+  makeCard(idea);
+  title.value = '';
+  body.value = '';
+  title.focus();
+};
+
+function makeCard(idea) {
+  numCards++;
+  var card =
+
+`<article class="idea-card" id="card${idea.id}"">
+      <h2 class="card-title editable" id="cardtitle" data-editcontent=${idea.id} data-edittitle=${idea.title}>${idea.title}</h2>
+      <p class="card-body editable" id="cardbody" data-editcontent=${idea.id} data-editbody=${idea.body}>${idea.body}</p>
+      <footer class="card-footer">
+        <div class="card-footer-left-buttons">
+          <input type="image" class="down-vote btns" data-editquality=${idea.id} src="assets/downvote.svg">
+          <input type="image" class="up-vote btns" data-editquality=${idea.id}  src="assets/upvote.svg">
+          <h4 class="card-quality">Quality: <span class="vote" id="newqual${idea.id}">${idea.quality}</span></h4>
+        </div>
+        <input type="image" data-deleteid=${idea.id} class="btns dlt-btn" src="assets/delete.svg">
+      </footer>
+    </article>`
+    cardBookmark.insertAdjacentHTML('afterbegin', card);
+};
+
+function deleteCard(e) {
+
+  var findId = e.target.dataset.deleteid;
+  var data = document.querySelector(`#card${findId}`);
+  data.remove();
+
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, ideaObject.quality);
+ 
+  newIdea.deleteFromStorage();
+}
+
+// ****TITLE AND BODY CONTENT UPDATE FUNCTIONS ****
+
+function updateTitleContent(e) {
+
+  var findId = e.target.dataset.editcontent;
+  var newTitle = e.target.dataset.edittitle;
+
+
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newIdea = new Idea(newTitle, ideaObject.body, ideaObject.id, ideaObject.quality);
+
+  if (event.target.classList.contains("editable")) {
+     event.target.contentEditable = true;
+    newIdea.updateContent(event.target.innerText, 'title');
+  }
+     
+  
+}
+
+function updateBodyContent(e) {
+  
+  var findId = e.target.dataset.editcontent;
+  var newBody = e.target.dataset.editbody;
+
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newIdea = new Idea(ideaObject.title, newBody, ideaObject.id, ideaObject.quality);
+
+  if (event.target.classList.contains("editable")) {
+     event.target.contentEditable = true;
+     event.keyCode === 13
+     newIdea.updateContent(event.target.innerText,'body');
+  }
+ 
+}
+
+// **** UP AND DOWN VOTE FUNCTIONS ****
+
+function upVote(e) {
+voteUp++;
+
+  findId = event.target.dataset.editquality;
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newQuality = ideaObject.quality;
+    
+    if (newQuality === 'Swill') {
+        newQuality = 'Plausible';
+        let newQual = document.querySelector(`#newqual${findId}`);
+            newQual.innerText = 'Plausible';
+
+    }   else if (newQuality === 'Plausible') {
+               newQuality = 'Genius'
+               let newQual = document.querySelector(`#newqual${findId}`);
+               newQual.innerText = 'Genius'
+    };
+
+  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
+  newIdea.updateQuality();
+}
+
+function downVote(e) {
+  voteDown++;
+
+  findId = event.target.dataset.editquality;
+  var idea = localStorage.getItem(findId);
+  var ideaObject = JSON.parse(idea);
+  var newQuality = ideaObject.quality;
+    
+    if (newQuality === 'Genius') {
+        newQuality = 'Plausible';
+        let newQual = document.querySelector(`#newqual${findId}`);
+            newQual.innerText = 'Plausible';
+
+    } 
+      else if (newQuality === 'Plausible') {
+               newQuality = 'Swill'
+               let newQual = document.querySelector(`#newqual${findId}`);
+               newQual.innerText = 'Swill'
+    };
+  
+  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
+  newIdea.updateQuality();
+}
+
+// **** FILTERING FUNCTIONS ****
 
 function textFilter() {
   removeCards();
@@ -136,131 +272,31 @@ function geniusFilter(e) {
     makeCard(y);
   })
 }
-  
-function addCard(e) {
+
+function moreAndLess(e) {
+  // debugger;
   e.preventDefault();
-  var idea = new Idea(title.value, body.value);
-  ideasArray.push(idea);
-  idea.saveToStorage(ideasArray);
-  console.log(ideasArray);
-  makeCard(idea);
-  title.value = '';
-  body.value = '';
-  title.focus();
-};
+  if (moreBtn.value === 'Show-More') {
+      
+      moreBtn.value = 'Show-Less';
+      cardBookmark.innerHTML = '';
 
-function makeCard(idea) {
-  numCards++;
-  var card =
+      ideasArray.forEach(function(x) {
+        makeCard(x);
+        console.log(ideasArray)
+      })
+    }
+      else if (moreBtn.value === 'Show-Less') {
 
-`<article class="idea-card" id="card${idea.id}"">
-      <h2 class="card-title editable" id="cardtitle" data-editcontent=${idea.id} data-edittitle=${idea.title}>${idea.title}</h2>
-      <p class="card-body editable" id="cardbody" data-editcontent=${idea.id} data-editbody=${idea.body}>${idea.body}</p>
-      <footer class="card-footer">
-        <div class="card-footer-left-buttons">
-          <input type="image" class="down-vote btns" data-editquality=${idea.id} src="assets/downvote.svg">
-          <input type="image" class="up-vote btns" data-editquality=${idea.id}  src="assets/upvote.svg">
-          <h4 class="card-quality">Quality: <span class="vote" id="newqual${idea.id}">${idea.quality}</span></h4>
-        </div>
-        <input type="image" data-deleteid=${idea.id} class="btns dlt-btn" src="assets/delete.svg">
-      </footer>
-    </article>`
-    cardBookmark.insertAdjacentHTML('afterbegin', card);
-};
+      moreBtn.value = 'Show-More';
+      cardBookmark.innerHTML = '';
 
-function deleteCard(e) {
+      var mostRecentIdeas = ideasArray.slice(-10);
+      mostRecentIdeas.forEach(function(e) {
+        makeCard(e);
+        console.log(mostRecentIdeas);
+      })
 
-  var findId = e.target.dataset.deleteid;
-  var data = document.querySelector(`#card${findId}`);
-  data.remove();
+    }
 
-  var idea = localStorage.getItem(findId);
-  var ideaObject = JSON.parse(idea);
-  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, ideaObject.quality);
- 
-  newIdea.deleteFromStorage();
 }
-
-
-function updateTitleContent(e) {
-
-  var findId = e.target.dataset.editcontent;
-  var newTitle = e.target.dataset.edittitle;
-
-
-  var idea = localStorage.getItem(findId);
-  var ideaObject = JSON.parse(idea);
-  var newIdea = new Idea(newTitle, ideaObject.body, ideaObject.id, ideaObject.quality);
-
-  if (event.target.classList.contains("editable")) {
-     event.target.contentEditable = true;
-    newIdea.updateContent(event.target.innerText, 'title');
-  }
-     
-  
-}
-
-function updateBodyContent(e) {
-  
-  var findId = e.target.dataset.editcontent;
-  var newBody = e.target.dataset.editbody;
-
-  var idea = localStorage.getItem(findId);
-  var ideaObject = JSON.parse(idea);
-  var newIdea = new Idea(ideaObject.title, newBody, ideaObject.id, ideaObject.quality);
-
-  if (event.target.classList.contains("editable")) {
-     event.target.contentEditable = true;
-     event.keyCode === 13
-     newIdea.updateContent(event.target.innerText,'body');
-  }
- 
-}
-
-function upVote(e) {
-voteUp++;
-
-  findId = event.target.dataset.editquality;
-  var idea = localStorage.getItem(findId);
-  var ideaObject = JSON.parse(idea);
-  var newQuality = ideaObject.quality;
-    
-    if (newQuality === 'Swill') {
-        newQuality = 'Plausible';
-        let newQual = document.querySelector(`#newqual${findId}`);
-            newQual.innerText = 'Plausible';
-
-    }   else if (newQuality === 'Plausible') {
-               newQuality = 'Genius'
-               let newQual = document.querySelector(`#newqual${findId}`);
-               newQual.innerText = 'Genius'
-    };
-
-  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
-  newIdea.updateQuality();
-}
-
-function downVote(e) {
-  voteDown++;
-
-  findId = event.target.dataset.editquality;
-  var idea = localStorage.getItem(findId);
-  var ideaObject = JSON.parse(idea);
-  var newQuality = ideaObject.quality;
-    
-    if (newQuality === 'Genius') {
-        newQuality = 'Plausible';
-        let newQual = document.querySelector(`#newqual${findId}`);
-            newQual.innerText = 'Plausible';
-
-    } 
-      else if (newQuality === 'Plausible') {
-               newQuality = 'Swill'
-               let newQual = document.querySelector(`#newqual${findId}`);
-               newQual.innerText = 'Swill'
-    };
-  
-  var newIdea = new Idea(ideaObject.title, ideaObject.body, ideaObject.id, newQuality);
-  newIdea.updateQuality();
-}
-
