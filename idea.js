@@ -22,9 +22,7 @@ class Idea {
       this.body = text;
     }
     var stringVar = JSON.stringify(this);
-    localStorage.setItem(this.id, stringVar);
-    console.log(this);
-    
+    localStorage.setItem(this.id, stringVar);    
   }
 
   updateQuality() {
