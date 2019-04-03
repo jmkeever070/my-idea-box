@@ -24,6 +24,7 @@ class Idea {
     var stringVar = JSON.stringify(this);
     localStorage.setItem(this.id, stringVar);
     console.log(this);
+    
   }
 
   updateQuality() {
