@@ -136,24 +136,7 @@ function geniusFilter(e) {
     makeCard(y);
   })
 }
-
-
-
-  // debugger;
-  // var qualSearch = ideasArray.filter(function (x) {
-  //   if (e.target.getAttribute('#swill-btn')) {
-  //     return x.quality === "Swill";
-  //   } 
-  //     else if (e.target.className.includes('#plaus-btn')) {
-  //       return x.quality === "Plausible"
-  //     }
-  //     else if (e.target.className.includes('#genius-btn')) {
-  //       return x.quality === "Genius"
-  //     }
-  // });
-
   
-
 function addCard(e) {
   e.preventDefault();
   var idea = new Idea(title.value, body.value);
