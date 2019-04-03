@@ -76,7 +76,20 @@ function windowLoad(storageArray) {
 };
 
 function textFilter() {
- 
+  removeCards();
+  var searchText = searchBox.value;
+  var filterSearch = ideasArray.filter(function (x) {
+    return x.title.toLowerCase().includes(searchText) || x.body.toLowerCase().includes(searchText);
+  });
+
+  filterSearch.forEach(function(y) {
+    makeCard(y);
+  })
+
+}
+
+function removeCards() {
+  cardBookmark.innerHTML = '';
 }
 
 function addCard(e) {
@@ -88,6 +101,7 @@ function addCard(e) {
   makeCard(idea);
   title.value = '';
   body.value = '';
+  title.focus();
 };
 
 function makeCard(idea) {
@@ -136,8 +150,8 @@ function updateTitleContent(e) {
   if (event.target.classList.contains("editable")) {
      event.target.contentEditable = true;
     newIdea.updateContent(event.target.innerText, 'title');
-     
   }
+     
   
 }
 
