@@ -25,8 +25,6 @@ for (var i=0; i<localStorage.length; i++) {
     ideasArray.push(parsedIdea);
 }
 
-console.log(ideasArray);
-
 
 // *********EVENT LISTENERS********
 
@@ -274,7 +272,6 @@ function geniusFilter(e) {
 }
 
 function moreAndLess(e) {
-  // debugger;
   e.preventDefault();
   if (moreBtn.value === 'Show-More') {
       
@@ -283,7 +280,6 @@ function moreAndLess(e) {
 
       ideasArray.forEach(function(x) {
         makeCard(x);
-        console.log(ideasArray)
       })
     }
       else if (moreBtn.value === 'Show-Less') {
@@ -294,9 +290,6 @@ function moreAndLess(e) {
       var mostRecentIdeas = ideasArray.slice(-10);
       mostRecentIdeas.forEach(function(e) {
         makeCard(e);
-        console.log(mostRecentIdeas);
       })
-
     }
-
 }
