@@ -81,6 +81,19 @@ label {
   padding: 6px 0;
 }
 
+.quality-styles {
+  display: flex;
+  justify-content: space-around;
+}
+
+.quality-btn {
+  background-color: #5E5C6B;
+  border-radius: 5px;
+  color: #FEFEFE;
+  font-size: 23px;
+  width: 25%;
+}
+
 .title-input {
   height: 32px;
 }
