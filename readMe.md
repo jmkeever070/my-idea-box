@@ -19,3 +19,7 @@
 
 ## Clicking the Swill, Plausible, and Quality buttons change the quality in local storage, but only appear on the DOM when        refreshing the page
 ## When editing the title and body on the cards, it changes in local storage only after clicking outside the card, then          clicking back inside it.
+
+# Screenshot
+
+![image](https://user-images.githubusercontent.com/43790434/55510920-94fa1080-561c-11e9-8e5b-b16e91feb3a2.png)
