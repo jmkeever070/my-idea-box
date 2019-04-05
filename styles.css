@@ -93,6 +93,18 @@ label {
   font-size: 17px;
   width: 18%;
 }
+.show-more-styles {
+    display: flex;
+    justify-content: center;
+}
+
+.button-corral-1 {
+  background-color: #5E5C6B;
+  border-radius: 5px;
+  color: #FEFEFE;
+  font-size: 17px;
+  width: 50%;
+}
 
 .title-input {
   height: 32px;
